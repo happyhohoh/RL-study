@@ -21,7 +21,9 @@ class MLPPolicy(nn.Module):
         # Suggested structure:
         # Linear(state_dim, hidden_dim) -> ReLU -> Linear(hidden_dim, action_dim)
         self.net = nn.Sequential(
-            # Write your layers here.
+            nn.Linear(state_dim, hidden_dim),
+            nn.ReLU(),
+            nn.Linear(hidden_dim, action_dim)
         )
 
     def forward(self, state: torch.Tensor) -> torch.Tensor:
@@ -33,22 +35,24 @@ class MLPPolicy(nn.Module):
         Returns:
             action_probs: Tensor with shape [batch_size, action_dim]
         """
-        # TODO: Pass state through the network and convert logits to probabilities.
-        # Hint: use torch.softmax(logits, dim=-1)
-        raise NotImplementedError
+        logits = self.net(state)
+        return torch.softmax(logits, dim=-1)
 
 
 if __name__ == "__main__":
-    state_dim = 4
-    action_dim = 3
+    state_dim = 2
+    action_dim = 4
     batch_size = 4
 
-    policy = MLPPolicy(state_dim=state_dim, action_dim=action_dim)
-    state = torch.randn(batch_size, state_dim)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print("device:", device)
 
-    # TODO: Run the policy and print the output shape.
-    # Expected shape: [4, 3]
-    action_probs = policy(state)
+    policy = MLPPolicy(state_dim=state_dim, action_dim=action_dim).to(device)
+    state = torch.randn(batch_size, state_dim, device=device)
+
+    with torch.no_grad():
+        action_probs = policy(state)
+
     print("state shape:", state.shape)
     print("action_probs shape:", action_probs.shape)
     print("action_probs:", action_probs)

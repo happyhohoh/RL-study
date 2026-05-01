@@ -1,0 +1,9 @@
+# 忽略 Python 编译产生的缓存
+__pycache__/
+*.pyc
+
+# 忽略编辑器特定的配置文件
+.vscode/
+
+# 忽略系统产生的临时文件（如 Mac 的 .DS_Store）
+.DS_Store
