@@ -1,9 +1,32 @@
-# 忽略 Python 编译产生的缓存
+# Python cache
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
 
-# 忽略编辑器特定的配置文件
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Editor and OS files
 .vscode/
-
-# 忽略系统产生的临时文件（如 Mac 的 .DS_Store）
+.idea/
 .DS_Store
+Thumbs.db
+
+# Test and build cache
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+build/
+dist/
+*.egg-info/
+
+# Experiment outputs
+week03/results/models/*.pth
+
+# Keep Week03 analysis plots for upload.
+!week03/results/plots/*.png
+!week03/results/.gitkeep
+!week03/results/models/.gitkeep
+!week03/results/plots/.gitkeep
